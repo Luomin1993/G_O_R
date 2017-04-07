@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gorilla</title>
+<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="css/mycodes-demo.css">
+<style type="text/css">
+	body {
+		padding: 0;
+		margin: 0;
+		/* background: #fff */
+		background: url(css/img/fact_2.jpg);
+		}
+		.btn-container{
+			padding: 1em 0;
+			text-align: center;
+		}
+	.container{
+		width: 700px;
+		margin: 50px auto;
+	}
+</style>
+<script src="js/gauge.min.js"></script>
+</head>
+<body style="background:url(css/img/fact_3.jpg);>
+<div class="mycodes-container">
+	<header class="mycodes-header">
+		<div class="mycodes-demo center">
+		  <!-- <a href="index.html">radial</a> -->
+		  <a href="radial-component.html" target="_blank">电离控制室</a>
+		  <a href="linear-component.html" class="current">冷控与电容调节室</a>
+		  <a href="magic-component.html" target="_blank">磁铁启动与控制室</a>
+		  <!-- <a href="scripted.html">scripted</a> -->
+		</div>
+	</header>
+	<div class="btn-container">
+		<input name="imgbtn" type="image" src="css/img/open_1.jpg" width="170" height="145" border="0" onclick="startMachine()">
+		<!-- <button onclick="animateGauges()" src="css/img/start.jpg">Animate</button> -->
+		<!-- <button onclick="stopGaugesAnimation()">Stop animation</button> -->
+		<input name="imgbtn" type="image" src="css/img/open_2.jpg" width="170" height="145" border="0" onclick="animateGauges()">
+		<input name="imgbtn" type="image" src="css/img/open_3.jpg" width="170" height="145" border="0" onclick="animateGauges()">
+		<input name="imgbtn" type="image" src="css/img/openstop_1.jpg" width="170" height="145" border="0" onclick="stopGaugesAnimation()">
+		<input name="imgbtn" type="image" src="css/img/openstop_2.jpg" width="170" height="145" border="0" onclick="stopGaugesAnimation()">
+	</div>
+	<div class="container">
+	    <canvas data-type="linear-gauge"
+				data-width="160"
+				data-height="600"
+				data-border-radius="20"
+				data-borders="true"
+				data-bar-stroke-width="20"
+				data-minor-ticks="10"
+				data-major-ticks="0,10,20,30,40,50,60,70,80,90,100"
+				data-color-numbers="red,green,blue,transparent,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc"
+				data-color-major-ticks="red,green,blue,transparent,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc,#ccc"
+				data-color-bar-stroke="#444"
+				data-value="22.3"
+				data-units="°C"
+				data-color-value-box-shadow="false"
+				data-tick-side="left"
+				data-number-side="left"
+				data-needle-side="left"
+				data-animate-on-init="true"
+				data-color-plate="#000"
+		></canvas>
+
+		<canvas data-type="linear-gauge"
+				data-width="600"
+				data-height="160"
+				data-border-radius="0"
+				data-borders="true"
+				data-bar-begin-circle="false"
+				data-title="capacitance"
+				data-units="C"
+				data-value="75.5"
+				data-bar-stroke-width="5"
+				data-highlights='[{"from":50, "to":75, "color": "red"}]'
+		></canvas>
+
+		<canvas data-type="linear-gauge"
+				data-width="600"
+				data-height="160"
+				data-border-radius="0"
+				data-borders="true"
+				data-bar-begin-circle="false"
+				data-title="capacitance"
+				data-units="C"
+				data-value="75.5"
+				data-bar-stroke-width="5"
+				data-highlights='[{"from":50, "to":75, "color": "red"}]'
+		></canvas>
+
+		<canvas data-type="linear-gauge"
+				data-width="600"
+				data-height="160"
+				data-border-radius="0"
+				data-borders="true"
+				data-bar-begin-circle="false"
+				data-title="capacitance"
+				data-units="C"
+				data-value="75.5"
+				data-bar-stroke-width="5"
+				data-highlights='[{"from":50, "to":75, "color": "red"}]'
+		></canvas>
+
+		<br>
+
+		<canvas data-type="linear-gauge"
+				data-width="600"
+				data-height="160"
+				data-border-radius="0"
+				data-borders="true"
+				data-bar-begin-circle="false"
+				data-title="capacitance"
+				data-units="C"
+				data-value="75.5"
+				data-bar-stroke-width="5"
+				data-highlights='[{"from":50, "to":75, "color": "red"}]'
+		></canvas>
+
+		<br>
+
+		
+	</div>
+</div>
+
+<script>
+if (!Array.prototype.forEach) {
+		Array.prototype.forEach = function(cb) {
+			var i = 0, s = this.length;
+			for (; i < s; i++) {
+				cb && cb(this[i], i, this);
+			}
+		}
+	}
+
+	var timers = [];
+	var timePassed = 0;
+	var calNum     = 0;
+
+	var Capacitance_1Ctrl = 0;
+	var Capacitance_2Ctrl = 0;
+	var Capacitance_3Ctrl = 0;
+	var Capacitance_4Ctrl = 0;
+	var DeltaQ            = 220;
+	var stopMachineFlag   = true;
+
+	function startMachine() {
+		setInterval(function(){
+			timePassed += 0.3;
+		},50);
+	}
+
+	function animateGauges() {
+		stopMachineFlag   = false;
+		document.gauges.forEach(function(gauge) {
+			timers.push(setInterval(function() {
+				calNum += 1;
+				gauge.value = Volume(timePassed,calNum%5)*
+					(gauge.options.maxValue - gauge.options.minValue) +
+					gauge.options.minValue;
+			}, gauge.animation.duration + 50));
+		});
+	}
+
+	function Volume(timePassed,calNumNow) {
+		switch(calNumNow){
+			case 0:
+			    return temperatureVolume(timePassed);
+			case 1:
+			    return Capacitance_1(timePassed);
+			case 2:
+			    return Capacitance_2(timePassed);
+			case 3:
+			    return Capacitance_3(timePassed);
+			case 4:
+			    return Capacitance_4(timePassed);                 
+		}
+	}
+
+	function temperatureVolume(timePassed) {
+		// body...
+		roomTemperatureVolume = 0.025;
+		return 0.00003*timePassed + roomTemperatureVolume;
+	}
+
+	function Capacitance_1(timePassed) {
+		var Q1 = DeltaQ;
+		if (Q1>55) {return 55; }
+		if (Q1<0)  {return 0;  }
+		return Q1;
+	}
+
+	function Capacitance_2(timePassed) {
+		var Q2 = 2*DeltaQ;
+		if (Q2>55) {return 55; }
+		if (Q2<0)  {return 0;  }
+		return Q2;
+	}
+	
+	function Capacitance_3(timePassed) {
+		var Q3 = 3*DeltaQ;
+		if (Q3>55) {return 55; }
+		if (Q3<0)  {return 0;  }
+		return Q3;
+	}
+	
+	function Capacitance_4(timePassed) {
+		var Q4 = 4*DeltaQ;
+		if (Q4>55) {return 55; }
+		if (Q4<0)  {return 0;  }
+		return Q4;
+	}
+
+	function stopGaugesAnimation() {
+		stopMachineFlag = true;
+		timers.forEach(function(timer) {
+			clearInterval(timer);
+		});
+	}
+</script>
+</body>
+
+
+
+<body>
+  <!--- HEADER -->
+<meta charset="utf-8">
+<title>real - Analytics</title>
+<link rel="shortcut icon" href="flot/favicon.gif">
+<!---CSS Files-->
+<link rel="stylesheet" href="flot/css/master.css">
+<!---jQuery Files-->
+<script src="flot/js/jquery-1.7.1.min.js"></script>
+<script src="flot/js/jquery-ui-1.8.17.min.js"></script>
+<script src="flot/js/styler.js"></script>
+<script src="flot/js/jquery.tipTip.js"></script>
+<script src="flot/js/colorpicker.js"></script>
+<script src="flot/js/sticky.full.js"></script>
+<script src="flot/js/global.js"></script>
+<script src="flot/js/flot/jquery.flot.min.js"></script>
+<script src="flot/js/flot/jquery.flot.pie.min.js"></script>
+<script src="flot/js/flot/jquery.flot.resize.min.js"></script>
+<!---Fonts-->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+  
+
+  <!--- CONTENT AREA -->
+
+  <div class="content container_12">
+      <div class="box grid_6">
+        <div class="box-head"><h2>DeltaQ电容波动</h2></div>
+        <div class="box-content">
+          <div id="flot-realtime"></div>
+        </div>
+      </div>
+  </div>
+
+<script> /* SCRIPTS */
+  $(function () {
+
+      
+      /* FOR THE REALTIME CHART */
+
+      var data = [], totalPoints = 300;
+          function getRandomData() {
+              if (data.length > 0)
+                  data = data.slice(1);
+
+              // do a random walk
+              while (data.length < totalPoints) {
+                  var prev = data.length > 0 ? data[data.length - 1] : 50;
+                  var y = prev + Math.random() * 10 - 5 ;
+                  if (y < DeltaQ)
+                      y = DeltaQ - Math.random()*20;
+                  if (y > DeltaQ)
+                      y = DeltaQ + Math.random()*20;
+                  if (stopMachineFlag == true)
+                      y = 0;  
+                  data.push(y);
+              }
+
+              // zip the generated y values with the x values
+              var res = [];
+              for (var i = 0; i < data.length; ++i)
+                  res.push([i, data[i]])
+              return res;
+          }
+
+          var updateInterval = 30;
+
+          var options = {
+              series: { shadowSize: 0 }, // drawing is faster without shadows
+              yaxis: { min: 0, max: 400 },
+              xaxis: { show: false }
+          };
+          var plot = $.plot($("#flot-realtime"), [ getRandomData() ], options);
+
+          function update() {
+              plot.setData([ getRandomData() ]);
+              // since the axes don't change, we don't need to call plot.setupGrid()
+              plot.draw();
+              
+              setTimeout(update, updateInterval);
+          }
+
+          update();
+
+  })
+</script>
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+
+</html>

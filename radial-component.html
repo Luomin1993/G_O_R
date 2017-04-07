@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gorilla</title>
+<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="css/mycodes-demo.css">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<style type="text/css">
+		.btn-container{
+			padding: 1em 0;
+			text-align: center;
+		}
+	.container{
+		width: 700px;
+		margin: 50px auto;
+	}
+</style>
+<script src="js/gauge.min.js"></script>
+</head>
+<body>
+<div class="mycodes-container">
+	<header class="mycodes-header">
+		<div class="mycodes-demo center">
+		  <!-- <a href="index.html">radial</a> -->
+		  <a href="radial-component.html" class="current">电离控制室</a>
+		  <a href="linear-component.html" target="_blank">冷控与电容调节室</a>
+		  <a href="magic-component.html" target="_blank">磁铁启动与控制室</a>
+		  <!-- <a href="scripted.html">scripted</a> -->
+		</div>
+	</header>
+	<div class="btn-container">
+	    <input name="imgbtn" type="image" src="css/img/open_1.jpg" width="170" height="145" border="0" onclick="startMachine()">
+		<!-- <button onclick="animateGauges()" src="css/img/start.jpg">Animate</button> -->
+		<!-- <button onclick="stopGaugesAnimation()">Stop animation</button> -->
+		<input name="imgbtn" type="image" src="css/img/open_2.jpg" width="170" height="145" border="0" onclick="animateGauges()">
+		<input name="imgbtn" type="image" src="css/img/open_3.jpg" width="170" height="145" border="0" onclick="animateGauges()">
+		<input name="imgbtn" type="image" src="css/img/openstop_1.jpg" width="170" height="145" border="0" onclick="stopGaugesAnimation()">
+		<input name="imgbtn" type="image" src="css/img/openstop_2.jpg" width="170" height="145" border="0" onclick="stopGaugesAnimation()">
+	</div>
+	<div class="container">
+	    <canvas data-type="radial-gauge"
+				data-width="300"
+				data-height="300"
+				data-units="kV"
+				data-title="false"
+				data-value="33.77"
+				data-animate-on-init="true"
+				data-animated-value="true"
+				data-min-value="0"
+				data-max-value="220"
+				data-major-ticks="0,20,40,60,80,100,120,140,160,180,200,220"
+				data-minor-ticks="2"
+				data-stroke-ticks="false"
+				data-highlights='[
+					{ "from": 0, "to": 50, "color": "rgba(0,255,0,.15)" },
+					{ "from": 50, "to": 100, "color": "rgba(255,255,0,.15)" },
+					{ "from": 100, "to": 150, "color": "rgba(255,30,0,.25)" },
+					{ "from": 150, "to": 200, "color": "rgba(255,0,225,.25)" },
+					{ "from": 200, "to": 220, "color": "rgba(0,0,255,.25)" }
+				]'
+				data-color-plate="#222"
+				data-color-major-ticks="#f5f5f5"
+				data-color-minor-ticks="#ddd"
+				data-color-title="#fff"
+				data-color-units="#ccc"
+				data-color-numbers="#eee"
+				data-color-needle-start="rgba(240, 128, 128, 1)"
+				data-color-needle-end="rgba(255, 160, 122, .9)"
+				data-value-box="true"
+				data-animation-rule="bounce"
+				data-animation-duration="500"
+				data-font-value="Led"
+				data-font-numbers="Led"
+				data-border-outer-width="3"
+				data-border-middle-width="3"
+				data-border-inner-width="3"
+		></canvas>
+
+		<canvas data-type="radial-gauge"
+				data-width="300"
+				data-height="300"
+				data-units="kA"
+				data-title="false"
+				data-min-value="10"
+				data-max-value="210"
+				data-value="33.77"
+				data-animate-on-init="true"
+				data-major-ticks="10,30,50,70,90,110,130,150,170,190,210"
+				data-minor-ticks="2"
+				data-stroke-ticks="true"
+				data-highlights='[{"from": 160, "to": 210, "color": "rgba(200, 50, 50, .75)"}]'
+				data-color-plate="#222"
+				data-color-major-ticks="#f5f5f5"
+				data-color-minor-ticks="#ddd"
+				data-color-title="#fff"
+				data-color-units="#ccc"
+				data-color-numbers="#eee"
+				data-color-needle-start="rgba(240, 128, 128, 1)"
+				data-color-needle-end="rgba(255, 160, 122, .9)"
+				data-value-box="true"
+				data-font-value="Led"
+				data-font-numbers="Led"
+				data-animated-value="true"
+				data-borders="false"
+				data-border-shadow-width="0"
+				data-needle-type="arrow"
+				data-needle-width="2"
+				data-needle-circle-size="7"
+				data-needle-circle-outer="true"
+				data-needle-circle-inner="false"
+				data-animation-duration="1500"
+				data-animation-rule="linear"
+				data-ticks-angle="250"
+				data-start-angle="55"
+				data-color-needle-shadow-down="#333"
+				data-value-box-width="45"
+		></canvas>
+
+		<canvas data-type="radial-gauge"
+				data-width="300"
+				data-height="300"
+				data-min-value="0"
+				data-max-value="360"
+				data-major-ticks="N,NE,E,SE,S,SW,W,NW,N"
+				data-minor-ticks="22"
+				data-ticks-angle="360"
+				data-start-angle="180"
+				data-stroke-ticks="false"
+				data-highlights="false"
+				data-color-plate="#222"
+				data-color-major-ticks="#f5f5f5"
+				data-color-minor-ticks="#ddd"
+				data-color-numbers="#ccc"
+				data-color-needle="rgba(240, 128, 128, 1)"
+				data-color-needle-end="rgba(255, 160, 122, .9)"
+				data-value-box="false"
+				data-value-text-shadow="false"
+				data-color-circle-inner="#fff"
+				data-color-needle-circle-outer="#ccc"
+				data-needle-circle-size="15"
+				data-needle-circle-outer="false"
+				data-animation-rule="linear"
+				data-needle-type="line"
+				data-needle-start="75"
+				data-needle-end="99"
+				data-needle-width="3"
+				data-borders="true"
+				data-border-inner-width="0"
+				data-border-middle-width="0"
+				data-border-outer-width="10"
+				data-color-border-outer="#ccc"
+				data-color-border-outer-end="#ccc"
+				data-color-needle-shadow-down="#222"
+				data-border-shadow-width="0"
+				data-font-value="Led"
+		></canvas>
+
+		<canvas data-type="radial-gauge"
+				data-width="300"
+				data-height="300"
+				data-units="°C"
+				data-title="Temperature"
+				data-min-value="-50"
+				data-max-value="50"
+				data-major-ticks="[-50,-40,-30,-20,-10,0,10,20,30,40,50]"
+				data-minor-ticks="2"
+				data-stroke-ticks="true"
+				data-highlights='[
+							{"from": -50, "to": 0, "color": "rgba(0,0, 255, .3)"},
+							{"from": 0, "to": 50, "color": "rgba(255, 0, 0, .3)"}
+						]'
+				data-ticks-angle="225"
+				data-start-angle="67.5"
+				data-color-major-ticks="#ddd"
+				data-color-minor-ticks="#ddd"
+				data-color-title="#eee"
+				data-color-units="#ccc"
+				data-color-numbers="#eee"
+				data-color-plate="#222"
+				data-border-shadow-width="0"
+				data-borders="true"
+				data-needle-type="arrow"
+				data-needle-width="2"
+				data-needle-circle-size="7"
+				data-needle-circle-outer="true"
+				data-needle-circle-inner="false"
+				data-animation-duration="1500"
+				data-animation-rule="linear"
+				data-color-border-outer="#333"
+				data-color-border-outer-end="#111"
+				data-color-border-middle="#222"
+				data-color-border-middle-end="#111"
+				data-color-border-inner="#111"
+				data-color-border-inner-end="#333"
+				data-color-needle-shadow-down="#333"
+				data-color-needle-circle-outer="#333"
+				data-color-needle-circle-outer-end="#111"
+				data-color-needle-circle-inner="#111"
+				data-color-needle-circle-inner-end="#222"
+				data-value-box-border-radius="0"
+				data-color-value-box-rect="#222"
+				data-color-value-box-rect-end="#333"
+				data-font-value="Led"
+		></canvas>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+<script>
+if (!Array.prototype.forEach) {
+		Array.prototype.forEach = function(cb) {
+			var i = 0, s = this.length;
+			for (; i < s; i++) {
+				cb && cb(this[i], i, this);
+			}
+		}
+	}
+
+	document.fonts && document.fonts.forEach(function(font) {
+		font.loaded.then(function() {
+			if (font.family.match(/Led/)) {
+				document.gauges.forEach(function(gauge) {
+					gauge.update();
+					gauge.options.renderTo.style.visibility = 'visible';
+				});
+			}
+		});
+	});
+
+	/* Global */
+	var timers = [];
+	var timePassed = 0;
+	var calNum = 0;
+
+	var ElectronGunCtrl                     = 0;
+	var BeamIntensityCtrl                   = 0;
+	var HighVoltageDoublingVoltageCtrl      = 0;
+	var HighVoltageDoublingVoltageOmigaCtrl = 0;
+	var stopMachineFlag                     = false;
+
+	function startMachine() {
+		setInterval(function(){
+			timePassed += 0.03;
+		},50);
+	}
+
+	function animateGauges() {
+		document.gauges.forEach(function(gauge) {
+			timers.push(setInterval(function() {
+				/*gauge.value = Math.random() **/
+				calNum +=1;
+				gauge.value = radialVolume(timePassed,calNum%4)*
+					(gauge.options.maxValue - gauge.options.minValue) +
+					gauge.options.minValue;
+			}, gauge.animation.duration + 50));
+		});
+	}
+
+	function radialVolume(timePassed,calNumNow) {
+		/*var elemB_M_1 = Math.log(54)*Math.acos(0.8)*/
+	    switch(calNumNow){
+	    	case 0:
+	    	  return ElectronGun(timePassed);
+	    	case 1:
+	    	  return BeamIntensity(timePassed);
+	    	case 3:
+	    	  return HighVoltageDoublingVoltage(timePassed);
+	    	case 2:
+	    	  return MagneticPole(timePassed);      
+	    }
+		/*return timePassed*/
+	}
+
+	/* >>>>>>>>>>>>>>>>>>>>     sci vol here       >>>>>>>>>>>>>>>>>>>> */
+	function ElectronGun(timePassed) {
+		// A/cm2
+		var B = 300, E = 300, e = 2.72, b = 200;
+		var J = B*E*E*Math.pow(e,-(b/E))*timePassed - ElectronGunCtrl;
+		if (J > 12) {return 12;}  
+		if (J < 0 || stopMachineFlag == true) {return 0;}
+		return J;
+	}
+
+	function BeamIntensity(timePassed){
+		I = 8*timePassed - BeamIntensityCtrl;
+		if (I > 12) {return 12;}  
+		if (I < 0 || stopMachineFlag == true) {return 0;} 
+		return I;
+	}
+
+	function HighVoltageDoublingVoltage(timePassed){
+		var Va = 20, omiga = 0.7;
+		V0_0 = Va*Math.sin((omiga-HighVoltageDoublingVoltageOmigaCtrl)*timePassed)-HighVoltageDoublingVoltageCtrl;
+		if (V0_0 < 0 || stopMachineFlag == true){return 0;}
+		if (V0_0 > 12) {return 12;}
+		return V0_0;
+	}
+
+	function MagneticPole(timePassed){
+		Pole = 45*timePassed;
+		if (Pole < 0 || stopMachineFlag == true){return 0;}
+		if (Pole > 12) {return 12;}
+		return Pole;
+	}
+
+	function stopGaugesAnimation() {
+		stopMachineFlag = true;
+		timers.forEach(function(timer) {
+			clearInterval(timer);
+		});
+	}
+</script>
+</body>
+</html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="YBslider.css" />
+<style type="text/css">
+body{background-color:#000;color:#999999;font:12px/1.618 Tahoma,"microsoft yahei";margin:0}.web{font-size:18px;color:#fff;position:absolute;z-index:99;top:170px;right: 1em}.web a{color:#fff;margin-right: 2em}h2{font:900 16px/20px "microsoft yahei";background-color:#080808;display:inline-block;border:1px solid #333;padding:5px;color:#333}* html h2{display:inline}*+html h2{display:inline}.test-bg{position:absolute;height:200px;width:100%;background:url(http://www.yaoboweb.com/images/grid-bg.png)}#test{position:relative;height:200px;font:900 12px/190px "microsoft yahei";overflow:hidden;white-space:nowrap;border:1px solid #333;background-color:#32a6a6;text-align:center}label{display:inline-block;width:4em;text-align:right}.box{white-space:nowrap}ul{list-style:none;margin:0;padding:0}.inline-b{display:inline-block;vertical-align:top;min-width:400px;margin-right:40px}* html .inline-b{display:inline}*+html .inline-b{display:inline}li{margin-bottom:20px}
+</style>
+</head>
+<body>
+
+<div class="box" style="background:url(css/img/fact_3.jpg);">
+  <div class="inline-b">
+    <h2>控制速率调节</h2>
+    <ul>
+      <li class="item">
+        <label>电子枪功率速率</label>
+        <span class="YB-slider">
+        <input class="slider-inp" setValue="1,200,64" setValueSuf="px" />
+        </span></li>
+      <li class="item">
+        <label>高压压频速率</label>
+        <span class="YB-slider">
+        <input class="slider-inp" setValue="0,255,10" />
+        </span></li>
+      <li class="item">
+        <label>高压强度速率</label>
+        <span class="YB-slider">
+        <input class="slider-inp" setValue="0,255,60" />
+        </span></li>
+      <li class="item">
+        <label>束流强变速率</label>
+        <span class="YB-slider">
+        <input class="slider-inp" setValue="0,255,80" />
+        </span></li>
+    </ul>
+  </div>
+  <div class="inline-b" >
+    <h2>联动控制</h2>
+    <ul>
+      <li class="item">
+        <label>电子枪变速率</label>
+        <span class="YB-slider-2">
+        <input class="slider-inp" setValue="1,200,64" setValueSuf="控制改变的速率" />
+        </span></li>
+      <li class="item">
+        <label>电压强度速率</label>
+        <span class="YB-slider-2">
+        <input class="slider-inp" setValue="0,1,0" setValueSuf="电压整体变化速率联动控制" setValueFloat="1" />
+        </span></li>
+      <li class="item">
+        <label>电压强变速率</label>
+        <span class="YB-slider-2">
+        <input class="slider-inp" setValue="255,0,10" setValueSuf="整体调整" />
+        </span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="box" style="background:url(css/img/fact_3.jpg);">
+  <div class="inline-b">
+    <h2>电子枪速率控制反馈速度</h2>
+    <ul>
+      <li>
+        <label>反馈速度</label>
+        <span id="ui_test"></span></li>
+    </ul>
+  </div>
+  <div class="inline-b">
+    <h2>束流速率控制反馈速度</h2>
+    <ul>
+      <li>
+        <label>反馈速度</label>
+        <span id="ui_test_2"></span></li>
+    </ul>
+  </div>
+  <div class="inline-b">
+    <h2>高压倍增控制反馈速度</h2>
+    <ul>
+      <li>
+        <label>反馈速度</label>
+        <span id="ui_test_3"></span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="box" style="background:url(css/img/fact_3.jpg);">
+  <div class="inline-b">
+    <h2>电子枪功率调控</h2>
+    <ul>
+      <li>
+        <label>电子枪功率</label>
+        <span id="EGC"></span></li>
+    </ul>
+  </div>
+  <div class="inline-b">
+    <h2>束流强度功率调控</h2>
+    <ul>
+      <li>
+        <label>束流强度功率</label>
+        <span id="BIC"></span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="box" style="background:url(css/img/fact_3.jpg);">
+  <div class="inline-b">
+    <h2>高压倍增电压功率调控</h2>
+    <ul>
+      <li>
+        <label>高压倍增电压功率</label>
+        <span id="HVDVC"></span></li>
+    </ul>
+  </div>
+  <div class="inline-b">
+    <h2>高压倍增电压频率调控</h2>
+    <ul>
+      <li>
+        <label>高压倍增电压频率</label>
+        <span id="HVDVOC"></span></li>
+    </ul>
+  </div>
+</div>  
+
+<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="js/YBslider-beta.js"></script>
+<script type="text/javascript" src="js/radial_script.js"></script>
+</body>
+</html>
