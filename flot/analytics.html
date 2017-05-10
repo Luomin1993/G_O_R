@@ -1,0 +1,137 @@
+
+<body>
+  <!--- HEADER -->
+<meta charset="utf-8">
+<title>Adminity - Analytics</title>
+<link rel="shortcut icon" href="favicon.gif">
+<!---CSS Files-->
+<link rel="stylesheet" href="css/master.css">
+<!---jQuery Files-->
+<script src="js/jquery-1.7.1.min.js"></script>
+<script src="js/jquery-ui-1.8.17.min.js"></script>
+<script src="js/styler.js"></script>
+<script src="js/jquery.tipTip.js"></script>
+<script src="js/colorpicker.js"></script>
+<script src="js/sticky.full.js"></script>
+<script src="js/global.js"></script>
+<script src="js/flot/jquery.flot.min.js"></script>
+<script src="js/flot/jquery.flot.pie.min.js"></script>
+<script src="js/flot/jquery.flot.resize.min.js"></script>
+<!---Fonts-->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+  
+
+  <!--- CONTENT AREA -->
+
+  <div class="content container_12">
+      <div class="box grid_6">
+        <div class="box-head"><h2>高频功率波动</h2></div>
+        <div class="box-content">
+          <div id="flot-realtime"></div>
+        </div>
+      </div>
+  </div>
+
+<script> /* SCRIPTS */
+  $(function () {
+
+      
+      /* FOR THE REALTIME CHART */
+
+      var data = [], totalPoints = 300;
+          function getRandomData() {
+              if (data.length > 0)
+                  data = data.slice(1);
+
+              // do a random walk
+              while (data.length < totalPoints) {
+                  var prev = data.length > 0 ? data[data.length - 1] : 50;
+                  var y = prev + Math.random() * 10 - 5;
+                  if (y < 0)
+                      y = 0;
+                  if (y > 100)
+                      y = 100;
+                  if (stopMachineFlag == true)
+                      y = 0;  
+                  data.push(y);
+              }
+
+              // zip the generated y values with the x values
+              var res = [];
+              for (var i = 0; i < data.length; ++i)
+                  res.push([i, data[i]])
+              return res;
+          }
+
+          var updateInterval = 30;
+
+          var options = {
+              series: { shadowSize: 0 }, // drawing is faster without shadows
+              yaxis: { min: 0, max: 100 },
+              xaxis: { show: false }
+          };
+          var plot = $.plot($("#flot-realtime"), [ getRandomData() ], options);
+
+          function update() {
+              plot.setData([ getRandomData() ]);
+              // since the axes don't change, we don't need to call plot.setupGrid()
+              plot.draw();
+              
+              setTimeout(update, updateInterval);
+          }
+
+          update();
+
+
+
+           /* FOR THE REALTIME CHART */
+
+      var data = [], totalPoints = 300;
+          function getRandomData() {
+              if (data.length > 0)
+                  data = data.slice(1);
+
+              // do a random walk
+              while (data.length < totalPoints) {
+                  var prev = data.length > 0 ? data[data.length - 1] : 50;
+                  var y = prev + Math.random() * 10 - 5;
+                  if (y < 0)
+                      y = 0;
+                  if (y > 100)
+                      y = 100;
+                  data.push(y);
+              }
+
+              // zip the generated y values with the x values
+              var res = [];
+              for (var i = 0; i < data.length; ++i)
+                  res.push([i, data[i]])
+              return res;
+          }
+
+          var updateInterval = 30;
+
+          var options = {
+              series: { shadowSize: 0 }, // drawing is faster without shadows
+              yaxis: { min: 0, max: 100 },
+              xaxis: { show: false }
+          };
+          var plot = $.plot($("#flot-realtime"), [ getRandomData() ], options);
+
+          function update() {
+              plot.setData([ getRandomData() ]);
+              // since the axes don't change, we don't need to call plot.setupGrid()
+              plot.draw();
+              
+              setTimeout(update, updateInterval);
+          }
+
+          update();
+
+  })
+</script>
+<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
+</body>
+
+
+
