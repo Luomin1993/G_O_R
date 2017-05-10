@@ -128,6 +128,15 @@
 </div>
 
 <script>
+
+/* Global:Switch is/isn't Open */
+sessionStorage.setItem("Switch_Magnet", "false");
+sessionStorage.setItem("Switch_Water", "false");
+sessionStorage.setItem("Switch_Ionization", "false");
+sessionStorage.setItem("Switch_StopEmer", "false");
+sessionStorage.setItem("Switch_StopMagnet", "false");
+
+
 if (!Array.prototype.forEach) {
 		Array.prototype.forEach = function(cb) {
 			var i = 0, s = this.length;
@@ -149,12 +158,14 @@ if (!Array.prototype.forEach) {
 	var stopMachineFlag   = true;
 
 	function startMachine() {
+	    sessionStorage.setItem("Switch_Magnet", "true");
 		setInterval(function(){
 			timePassed += 0.3;
 		},50);
 	}
 
 	function animateGauges() {
+	    sessionStorage.setItem("Switch_Water", "true");
 		stopMachineFlag   = false;
 		document.gauges.forEach(function(gauge) {
 			timers.push(setInterval(function() {
@@ -216,7 +227,8 @@ if (!Array.prototype.forEach) {
 	}
 
 	function stopGaugesAnimation() {
-		stopMachineFlag = true;
+	    sessionStorage.setItem("Switch_Magnet", "false");
+		sessionStorage.setItem("Switch_Water", "false");
 		timers.forEach(function(timer) {
 			clearInterval(timer);
 		});

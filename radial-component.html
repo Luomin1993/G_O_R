@@ -31,15 +31,18 @@
 		  <!-- <a href="scripted.html">scripted</a> -->
 		</div>
 	</header>
-	<div class="btn-container">
+	<!-- <div class="btn-container">
 	    <input name="imgbtn" type="image" src="css/img/open_1.jpg" width="170" height="145" border="0" onclick="startMachine()">
-		<!-- <button onclick="animateGauges()" src="css/img/start.jpg">Animate</button> -->
-		<!-- <button onclick="stopGaugesAnimation()">Stop animation</button> -->
+		<button onclick="animateGauges()" src="css/img/start.jpg">Animate</button>
+		<button onclick="stopGaugesAnimation()">Stop animation</button>
 		<input name="imgbtn" type="image" src="css/img/open_2.jpg" width="170" height="145" border="0" onclick="animateGauges()">
 		<input name="imgbtn" type="image" src="css/img/open_3.jpg" width="170" height="145" border="0" onclick="animateGauges()">
 		<input name="imgbtn" type="image" src="css/img/openstop_1.jpg" width="170" height="145" border="0" onclick="stopGaugesAnimation()">
 		<input name="imgbtn" type="image" src="css/img/openstop_2.jpg" width="170" height="145" border="0" onclick="stopGaugesAnimation()">
-	</div>
+	</div> -->
+	<dir class="btn-container">
+		<input name="imgbtn" type="image" src="css/img/open_judge.jpg" width="170" height="145" border="0" onclick="judgeIsOpened()">
+	</dir>
 	<div class="container">
 	    <canvas data-type="radial-gauge"
 				data-width="300"
@@ -251,7 +254,7 @@ if (!Array.prototype.forEach) {
 	function startMachine() {
 		setInterval(function(){
 			timePassed += 0.03;
-		},50);
+		},350);
 	}
 
 	function animateGauges() {
@@ -262,8 +265,16 @@ if (!Array.prototype.forEach) {
 				gauge.value = radialVolume(timePassed,calNum%4)*
 					(gauge.options.maxValue - gauge.options.minValue) +
 					gauge.options.minValue;
-			}, gauge.animation.duration + 50));
+			}, gauge.animation.duration + 1750));
 		});
+	}
+
+	function judgeIsOpened()
+	{
+		if (sessionStorage.getItem("Switch_Magnet")=="true" && sessionStorage.getItem("Switch_Water")=="true") {
+			startMachine();
+			animateGauges();
+		}
 	}
 
 	function radialVolume(timePassed,calNumNow) {
@@ -287,28 +298,28 @@ if (!Array.prototype.forEach) {
 		var B = 300, E = 300, e = 2.72, b = 200;
 		var J = B*E*E*Math.pow(e,-(b/E))*timePassed - ElectronGunCtrl;
 		if (J > 12) {return 12;}  
-		if (J < 0 || stopMachineFlag == true) {return 0;}
+		if (J < 0 || sessionStorage.getItem("Switch_StopEmer")=="true" || sessionStorage.getItem("Switch_StopMagnet")=="true") {return 0;}
 		return J;
 	}
 
 	function BeamIntensity(timePassed){
 		I = 8*timePassed - BeamIntensityCtrl;
 		if (I > 12) {return 12;}  
-		if (I < 0 || stopMachineFlag == true) {return 0;} 
+		if (I < 0 || sessionStorage.getItem("Switch_StopEmer")=="true" || sessionStorage.getItem("Switch_StopMagnet")=="true") {return 0;} 
 		return I;
 	}
 
 	function HighVoltageDoublingVoltage(timePassed){
 		var Va = 20, omiga = 0.7;
 		V0_0 = Va*Math.sin((omiga-HighVoltageDoublingVoltageOmigaCtrl)*timePassed)-HighVoltageDoublingVoltageCtrl;
-		if (V0_0 < 0 || stopMachineFlag == true){return 0;}
+		if (V0_0 < 0 || sessionStorage.getItem("Switch_StopEmer")=="true" || sessionStorage.getItem("Switch_StopMagnet")=="true"){return 0;}
 		if (V0_0 > 12) {return 12;}
 		return V0_0;
 	}
 
 	function MagneticPole(timePassed){
 		Pole = 45*timePassed;
-		if (Pole < 0 || stopMachineFlag == true){return 0;}
+		if (Pole < 0 || sessionStorage.getItem("Switch_StopEmer")=="true" || sessionStorage.getItem("Switch_StopMagnet")=="true"){return 0;}
 		if (Pole > 12) {return 12;}
 		return Pole;
 	}
@@ -334,7 +345,7 @@ body{background-color:#000;color:#999999;font:12px/1.618 Tahoma,"microsoft yahei
 </head>
 <body>
 
-<div class="box" style="background:url(css/img/fact_3.jpg);">
+<div class="box" style="background:url(css/img/bg_ctrl2.jpg);">
   <div class="inline-b">
     <h2>控制速率调节</h2>
     <ul>
@@ -382,7 +393,7 @@ body{background-color:#000;color:#999999;font:12px/1.618 Tahoma,"microsoft yahei
   </div>
 </div>
 
-<div class="box" style="background:url(css/img/fact_3.jpg);">
+<div class="box" style="background:url(css/img/bg_ctrl2.jpg);">
   <div class="inline-b">
     <h2>电子枪速率控制反馈速度</h2>
     <ul>
@@ -409,7 +420,7 @@ body{background-color:#000;color:#999999;font:12px/1.618 Tahoma,"microsoft yahei
   </div>
 </div>
 
-<div class="box" style="background:url(css/img/fact_3.jpg);">
+<div class="box" style="background:url(css/img/bg_ctrl2.jpg);">
   <div class="inline-b">
     <h2>电子枪功率调控</h2>
     <ul>
@@ -428,7 +439,7 @@ body{background-color:#000;color:#999999;font:12px/1.618 Tahoma,"microsoft yahei
   </div>
 </div>
 
-<div class="box" style="background:url(css/img/fact_3.jpg);">
+<div class="box" style="background:url(css/img/bg_ctrl2.jpg);">
   <div class="inline-b">
     <h2>高压倍增电压功率调控</h2>
     <ul>
@@ -450,5 +461,6 @@ body{background-color:#000;color:#999999;font:12px/1.618 Tahoma,"microsoft yahei
 <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
 <script type="text/javascript" src="js/YBslider-beta.js"></script>
 <script type="text/javascript" src="js/radial_script.js"></script>
+<script type="text/javascript" src="js/ElectromagneticPartPara.js"></script>
 </body>
 </html>

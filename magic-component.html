@@ -31,15 +31,18 @@
 		  <!-- <a href="scripted.html">scripted</a> -->
 		</div>
 	</header>
-	<div class="btn-container">
+	<!-- <div class="btn-container">
 	    <input name="imgbtn" type="image" src="css/img/open_1.jpg" width="170" height="145" border="0" onclick="startMachine()">
-		<!-- <button onclick="animateGauges()" src="css/img/start.jpg">Animate</button> -->
-		<!-- <button onclick="stopGaugesAnimation()">Stop animation</button> -->
+		<button onclick="animateGauges()" src="css/img/start.jpg">Animate</button>
+		<button onclick="stopGaugesAnimation()">Stop animation</button>
 		<input name="imgbtn" type="image" src="css/img/open_2.jpg" width="170" height="145" border="0" onclick="animateGauges()">
 		<input name="imgbtn" type="image" src="css/img/open_3.jpg" width="170" height="145" border="0" onclick="animateGauges()">
 		<input name="imgbtn" type="image" src="css/img/openstop_1.jpg" width="170" height="145" border="0" onclick="stopGaugesAnimation()">
 		<input name="imgbtn" type="image" src="css/img/openstop_2.jpg" width="170" height="145" border="0" onclick="stopGaugesAnimation()">
-	</div>
+	</div> -->
+	<dir class="btn-container">
+		<input name="imgbtn" type="image" src="css/img/open_judge.jpg" width="170" height="145" border="0" onclick="judgeIsOpened()">
+	</dir>
 	<div class="container" style="background:url(css/img/fact_2.jpg);">
 		<canvas data-type="radial-gauge"
 				data-width="300"
@@ -227,6 +230,14 @@ if (!Array.prototype.forEach) {
 		});
 	}
 
+	function judgeIsOpened()
+	{
+		if (sessionStorage.getItem("Switch_Magnet")=="true" && sessionStorage.getItem("Switch_Water")=="true") {
+			startMachine();
+			animateGauges();
+		}
+	}
+
 	function radialVolume(timePassed,calNumNow) {
 		/*var elemB_M_1 = Math.log(54)*Math.acos(0.8)*/
 	    switch(calNumNow){
@@ -246,28 +257,28 @@ if (!Array.prototype.forEach) {
 		var B = 300, E = 300, e = 2.72, b = 200;
 		var J = B*E*E*Math.pow(e,-(b/E))*timePassed - ElectronGunCtrl;
 		if (J > 12) {return 12;}  
-		if (J < 0 || stopMachineFlag == true) {return 0;}
+		if (J < 0 || sessionStorage.getItem("Switch_StopEmer")=="true" || sessionStorage.getItem("Switch_StopMagnet")=="true") {return 0;}
 		return J;
 	}
 
 	function ExcitationPower(timePassed){
 		Pe = 8*timePassed - ExcitationPowerCtrl;
 		if (Pe > 12) {return 12;}  
-		if (Pe < 0 || stopMachineFlag == true) {return 0;} 
+		if (Pe < 0 || sessionStorage.getItem("Switch_StopEmer")=="true" || sessionStorage.getItem("Switch_StopMagnet")=="true") {return 0;} 
 		return Pe;
 	}
 
 	function HighFrequencyPower(timePassed){
 		var Va = 20, omiga = 0.7;
 		Ph = Va*Math.sin((omiga-HighFrequencyPowerOmigaCtrl)*timePassed)-HighFrequencyPowerCtrl;
-		if (Ph < 0 || stopMachineFlag == true){return 0;}
+		if (Ph < 0 || sessionStorage.getItem("Switch_StopEmer")=="true" || sessionStorage.getItem("Switch_StopMagnet")=="true"){return 0;}
 		if (Ph > 12) {return 12;}
 		return Ph;
 	}
 
 	function MagneticPole(timePassed){
 		Pole = 45*timePassed;
-		if (Pole < 0 || stopMachineFlag == true){return 0;}
+		if (Pole < 0 || sessionStorage.getItem("Switch_StopEmer")=="true" || sessionStorage.getItem("Switch_StopMagnet")=="true"){return 0;}
 		if (Pole > 12) {return 12;}
 		return Pole;
 	}
